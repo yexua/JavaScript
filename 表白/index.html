@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="keywords" content="关键字，关键词">
+		<meta name="description" content="描述信息" />
+		<title>表白</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				cursor: url(img/cursor.ico), auto;
+			}
+			
+			body {
+				background: url(img/1.jpg) no-repeat;
+				background-size: cover;
+			}
+			/*S--top*/
+			
+			.top {
+				width: 400px;
+				height: 100px;
+				margin: 60px auto;
+				font-size: 30px;
+				font-family: "楷体";
+				color: #FF00FF;
+			}
+			/*E--top*/
+			/*S--box*/
+			
+			.box {
+				width: 310px;
+				height: 310px;
+				margin: auto;
+				perspective: 800px;
+			}
+			
+			.box .pic {
+				position: relative;
+				transform-style: preserve-3d;
+				animation: play 10s linear infinite;
+			}
+			
+			.box ul li {
+				list-style: none;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			/*E--top*/
+			/*S--text*/
+			
+			#text {
+				width: 500px;
+				height: 200px;
+				margin: auto;
+				font-size: 24px;
+				font-family: "仿宋";
+				color: yellow;
+			}
+			/*E--text*/
+			/*定义一个关键帧*/
+			
+			@keyframes play {
+				from {
+					transform: rotateY(0deg);
+				}
+				to {
+					transform: rotateY(360deg);
+				}
+			}
+		</style>
+	</head>
+
+	<body id="bg">
+		<!--S top-->
+		<div class="top">
+			<marquee behavior="alternate">时光不老 我们不散</marquee>
+			<!--左右晃动-->
+		</div>
+		<!--end top-->
+
+		<div id="move1" style="position: absolute;left:50px;top:100px;">
+			<img class="move" src="img/xin.png" height="" width="" alt="浮动" />
+		</div>
+
+		<div id="move2" style="position: absolute;left:1500px;top:200px;">
+			<img class="move" src="img/xin1.png" height="" width="" alt="浮动" />
+		</div>
+
+		<!--S box-->
+		<div class="box">
+
+			<!--S pic-->
+			<div class="pic">
+				<ul>
+					<li><img src="img/1.png" height="" width="" alt="描述"></li>
+					<li><img src="img/2.png" height="" width="" alt="描述"></li>
+					<li><img src="img/3.png" height="" width="" alt="描述"></li>
+					<li><img src="img/4.png" height="" width="" alt="描述"></li>
+					<li><img src="img/5.png" height="" width="" alt="描述"></li>
+					<li><img src="img/6.png" height="" width="" alt="描述"></li>
+				</ul>
+			</div>
+			<!--E pic-->
+		</div>
+		<!--E box-->
+
+		<!--S text-->
+		<div id="text">
+
+		</div>
+		<!--S box-->
+
+		<!--插入背景音乐-->
+		<embed src="videos/周杰伦 - 告白气球.mp3" width="0" height="0" />
+
+		<!--引用官方jQuery插件-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jqurey.snow.min.js"></script>
+		<script>
+			//得到每一个ul对象
+			$(".pic ul li").each(function(i) {
+				var deg = 360 / $(".pic ul li").size();
+				//当前的li对象
+				$(this).css({ "transform": "rotateY(" + deg * i + "deg)translateZ(216px)" });
+
+				//雪花效果
+				$.fn.snow({
+					minSize: 10,
+					maxSize: 15,
+					newOn: 500,
+					flakeColor: '#ffffff'
+				});
+			});
+
+			var i = 0;
+			var str = "这一生会遇到很多人，也会错过很多人，很多人都拿着没遇到当借口，其实很多时候幸福是自己把握的，也许一个回头、一个微笑、一个转角，就是一辈子了。一生有你 无可取代 三生有幸 为爱归来。我爱你";
+
+			/*文字依次出现效果   间隔200毫秒*/
+			var Odiv = document.getElementById("text");
+			window.onload = function typing() {
+				//获取div
+				
+				Odiv.innerHTML += str.charAt(i);
+				i++
+				var timer = setTimeout(typing, 200);
+				if(i == str.length) {
+					clearTimeout(timer);
+				}
+			};
+            //字体颜色变化
+			var colorArr= new Array("#FF8C05","#049FF1","#00CCFF","red","yellow","#72CFD7");
+			setInterval(function(){
+				Odiv.style.color=colorArr[Math.round(Math.random()*5)];
+			},1000);
+			
+            /*背景图片循环切换*/
+			var oBody = document.getElementById('bg');
+			var num = 2;
+			setInterval(function() {
+				oBody.style.background = 'url(img/' + num + '.jpg)';
+				num++;
+				if(num == 7) {
+					num = 1;
+				}
+			}, 4000);
+
+            /*心型图片随机出现*/
+			var oMove1 = document.getElementById('move1');
+			var oMove2 = document.getElementById('move2');
+
+			
+			setInterval(function(){
+				reMove(oMove1);reMove(oMove2);
+			},1000);
+			
+			function reMove(obj){
+					obj.style.left = Math.random()*1500+'px';
+					obj.style.top = Math.random()*800+'px';
+					if(obj.hidden) {
+						obj.style.display = 'block';
+						obj.hidden = false;
+					}else{
+						obj.style.display = 'none';
+						obj.hidden = true;
+					}
+			}
+			
+			
+			
+		</script>
+	</body>
+
+</html>

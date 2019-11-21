@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  <script src="https://cdn.staticfile.org/jquery/2.2.0/jquery.min.js">
+  <style>
+  * {
+    margin: 0;
+    padding: 0
+}
+  .main-header {
+    display: table;
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    text-align: center;
+    background: #222 url(https://raw.githubusercontent.com/BNDong/Cnblogs-Theme-SimpleMemory/master/img/home_top_bg.jpg) center center no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 998;
+    box-shadow: 0 1px 2px rgba(150,150,150,.7)
+	}
+	
+.inner {
+	position: relative;
+	width: 80%;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 10px;
+}
+.page-title {
+    margin: 10px 0 10px 0;
+    letter-spacing: -1px;
+    font-weight: 700;
+    font-family: "Open Sans",sans-serif;
+    color: #fff;
+    -webkit-animation: fade-in-down 1s;
+    animation: fade-in-down 1s both;
+    -webkit-animation-delay: .6s;
+    animation-delay: .5s;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.3)
+}
+.page-title {
+    font-size: 5rem
+}
+
+.vertical {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%
+}
+
+.page-description {
+    font-size: 2rem;
+    line-height: 1.5em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10;
+    overflow: hidden
+}
+
+.page-author,.page-description {
+    font-family: "Merriweather","Open Sans","Microsoft Jhenghei","Microsoft Yahei",sans-seri;
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: .01rem;
+    color: rgba(255,255,255,0.8);
+    -webkit-animation: fade-in-down .9s;
+    animation: fade-in-down .9s both;
+    -webkit-animation-delay: .1s;
+    animation-delay: .3s;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.5);
+    display: none
+}
+
+.page-author {
+    font-size: 1.4rem!important;
+    line-height: 1.3em
+}
+
+  </style>
+ </head>
+ <body>
+  <div class="main-header" style="background: url(&quot;https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-698904.jpg&quot;) center center / cover no-repeat rgb(34, 34, 34); overflow: hidden;">
+    <!-- <canvas id="notHomeTopCanvas" style=" position: absolute;margin: auto;width: 100%;height: 100%;top: 0;bottom: 0;left: 0;right: 0;"></canvas> -->
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <link href="https://fonts.googleapis.com/css?family=Playball" rel="stylesheet">
+            <h1 class="page-title" style="font-family: 'Playball', cursive;" id="homeTopTitle">BNDong</h1>
+            <h2 class="page-description" id="hitokoto" style="display: -webkit-box;">不知乘月几人归，落月摇情满江树。</h2>
+            <h3 class="page-author" id="hitokotoAuthor" style="display: block;">《春江花月夜》 - 唐代 - 张若虚</h3>
+        </div>
+    </div>
+	<!-- <canvas id="homeTopCanvas" width="1902" height="545" style="position: absolute; left: 0px; bottom: 0px;"></canvas></div> -->
+ </body>
+</html>
+<script>
+<!--  $.ajax({
+            async: !0,
+            crossDomain: !0,
+            url: "https://v2.jinrishici.com/one.json",
+            method: "GET"
+        }).done(function(o) {
+            if (o && "success" == o.status)
+                $("#hitokoto").text(o.data.content).css("display", "-webkit-box"),
+                $("#hitokotoAuthor").text("《" + o.data.origin.title + "》 - " + o.data.origin.dynasty + " - " + o.data.origin.author).show();
+            else {
+                var i = e.randomNum(0, n.length - 1);
+                $("#hitokoto").text(n[i]).css("display", "-webkit-box")
+            }
+ 
+        }) -->
+</script>
+<script>
+;(function ($) {
+  $.fn.circleMagic = function (options) {
+
+    var width, height, canvas, ctx, animateHeader = true;
+    var circles = [];
+
+    var settings = $.extend({
+      color: 'rgba(255,255,255,.5)',
+      radius: 10,
+      density: 0.3,
+      clearOffset: 0.2
+    }, options);
+
+    //  Main
+
+    var container = this['0'];
+    initContainer();
+    addListeners();
+
+    function initContainer() {
+      width = container.offsetWidth;
+      height = container.offsetHeight;
+
+      //  create canvas element
+
+      initCanvas();
+      canvas = document.getElementById('homeTopCanvas');
+      canvas.width = width;
+      canvas.height = height;
+      canvas.style.position = 'absolute';
+      canvas.style.left = '0';
+      canvas.style.bottom = '0';
+      ctx = canvas.getContext('2d');
+
+      //  create circles
+      for (var x = 0; x < width * settings.density; x++) {
+        var c = new Circle();
+        circles.push(c);
+      }
+      animate();
+    }
+
+    //Init canvas element
+    function initCanvas() {
+      var canvasElement = document.createElement('canvas');
+      canvasElement.id = 'homeTopCanvas';
+      container.appendChild(canvasElement);
+      canvasElement.parentElement.style.overflow = 'hidden';
+
+    }
+
+    // Event handling
+    function addListeners() {
+      window.addEventListener('scroll', scrollCheck, false);
+      window.addEventListener('resize', resize, false);
+    }
+
+    function scrollCheck() {
+      if (document.body.scrollTop > height) {
+        animateHeader = false;
+      }
+      else {
+        animateHeader = true;
+      }
+    }
+
+    function resize() {
+      width = container.clientWidth;
+      height = container.clientHeight;
+      container.height = height + 'px';
+      canvas.width = width;
+      canvas.height = height;
+    }
+
+    function animate() {
+      if (animateHeader) {
+        ctx.clearRect(0, 0, width, height);
+        for (var i in circles) {
+          circles[i].draw();
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+
+    function randomColor() {
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      var alpha = Math.random().toPrecision(2);
+      return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
+    }
+
+    //  Canvas manipulation
+
+    function Circle() {
+      var that = this;
+
+      // constructor
+      (function () {
+        that.pos = {};
+        init();
+      })();
+
+      function init() {
+        that.pos.x = Math.random() * width;
+        that.pos.y = height + Math.random() * 100;
+        that.alpha = 0.1 + Math.random() * settings.clearOffset;
+        that.scale = 0.1 + Math.random() * 0.3;
+        that.speed = Math.random();
+        if (settings.color === 'random') {
+          that.color = randomColor();
+        }
+        else {
+          that.color = settings.color;
+        }
+      }
+
+      this.draw = function () {
+        if (that.alpha <= 0) {
+          init();
+        }
+        that.pos.y -= that.speed;
+        that.alpha -= 0.0005;
+        ctx.beginPath();
+        ctx.arc(that.pos.x, that.pos.y, that.scale * settings.radius, 0, 2 * Math.PI, false);
+        ctx.fillStyle = that.color;
+        ctx.fill();
+        ctx.closePath();
+      };
+    }
+  }
+})(jQuery);
+$('.main-header').circleMagic();
+</script>
